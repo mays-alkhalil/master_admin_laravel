@@ -1,22 +1,25 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MainController;
 use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Admin\StoreController;
-use App\Http\Controllers\Admin\ProductController;
-use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\OrderController;
-
+use App\Http\Controllers\Admin\StoreController;
+use App\Http\Controllers\Admin\CouponController;
 use App\Http\Controllers\Admin\ContactController;
 
-use App\Http\Controllers\Admin\CouponController;
+use App\Http\Controllers\Admin\ProductController;
+
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\DashboardController;
 
 
 
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/user-chart', [MainController::class, 'chart']);
 
 Auth::routes();
 

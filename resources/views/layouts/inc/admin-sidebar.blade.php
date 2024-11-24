@@ -8,6 +8,11 @@
                     <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                     Dashboard
                 </a>
+                <a class="nav-link {{ Request::is('user-chart') ? 'active' : '' }}" href="{{ url('user-chart') }}">
+    <div class="sb-nav-link-icon"><i class="fas fa-chart-line"></i></div>
+    Charts
+</a>
+
 
                 <!-- Category Section -->
                 <div class="sb-sidenav-menu-heading">Product Management</div>
