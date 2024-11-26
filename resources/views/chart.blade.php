@@ -1,4 +1,3 @@
-@extends('layouts.app')
 @extends('layouts.master')
 
 @section('title', 'Charts')

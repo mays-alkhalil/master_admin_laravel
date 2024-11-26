@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\ProductController;
 
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\ReviewController;
 
 
 
@@ -74,6 +75,10 @@ Route::get('admin/orders/{id}/print', [OrderController::class, 'printOrder'])->n
 Route::get('admin/orders/user/{userId}', [OrderController::class, 'userOrders'])->name('admin.orders.userOrders');
 Route::get('admin/orders', [OrderController::class, 'index'])->name('admin.orders.index');
 Route::get('admin/orders/{id}', [OrderController::class, 'show'])->name('admin.orders.show');
+Route::post('admin/orders/store', [OrderController::class, 'storeCoupon'])->name('admin.orders.store');
+Route::post('admin/orders/apply-coupon', [OrderController::class, 'applyCoupon'])->name('admin.orders.applyCoupon');
+
+
 
 
 // contacts
@@ -92,6 +97,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/coupons/create', [CouponController::class, 'create'])->name('coupons.create');
     Route::post('/coupons', [CouponController::class, 'store'])->name('coupons.store');
     Route::delete('/coupons/{id}', [CouponController::class, 'destroy'])->name('coupons.destroy');
+});
+
+
+// ريفيوز
+
+Route::prefix('admin')->group(function () {
+    Route::get('/reviews', [ReviewController::class, 'index'])->name('admin.reviews.index');
+    Route::delete('/reviews/{id}', [ReviewController::class, 'destroy'])->name('admin.reviews.destroy');
 });
 
 

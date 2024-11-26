@@ -32,6 +32,12 @@
                     <div class="sb-nav-link-icon"><i class="fas fa-box"></i></div>
                     Products
                 </a>
+
+                <!-- Reviews -->
+                <a class="nav-link {{ Request::is('admin/reviews') ? 'active':''}}" href="{{ url('admin/reviews') }}">
+    <div class="sb-nav-link-icon"><i class="fas fa-star"></i></div>
+    Reviews
+</a>
                 <!-- Users Section -->
              
 

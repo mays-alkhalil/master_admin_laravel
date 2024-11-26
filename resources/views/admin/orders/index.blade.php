@@ -37,6 +37,10 @@
             <div class="alert alert-success">{{ session('success') }}</div>
             @endif
 
+            @if(session('error'))
+            <div class="alert alert-danger">{{ session('error') }}</div>
+            @endif
+
             <!-- نموذج البحث -->
             <form action="{{ route('admin.orders.index') }}" method="GET" class="mb-3">
                 <div class="row">
@@ -49,6 +53,8 @@
                 </div>
             </form>
 
+          
+
             <!-- جدول الطلبات -->
             <table id="myDataTable" class="table table-bordered">
                 <thead>
@@ -59,6 +65,9 @@
                         <th>Delivery Method</th>
                         <th>Total Amount</th>
                         <th>Items Count</th>
+                        <th>Coupon</th> <!-- عمود الكوبون الجديد -->
+                        <th>Discounted Amount</th> <!-- عمود السعر بعد الخصم -->
+
                         <th>Edit Status</th>
                         <th>View</th>
                         <th>Delete</th>
@@ -71,8 +80,34 @@
                         <td>{{ $order->user->name }}</td>
                         <td>{{ $order->status }}</td>
                         <td>{{ $order->delivery_method == 'delivery' ? 'Delivery' : 'Pickup' }}</td>
-                        <td>${{ $order->total_amount }}</td>
+                        <td>
+    @if($order->total_amount < $order->original_amount) <!-- تحقق مما إذا كان هناك خصم -->
+        <span style="text-decoration: line-through;">${{ $order->original_amount }}</span>
+        <span style="color: red;">${{ $order->total_amount }}</span>
+    @else
+        ${{ $order->total_amount }}
+    @endif
+</td>
                         <td>{{ $order->items->sum('quantity') }}</td>
+                        <td>
+                        
+    <!-- عرض حقل الكوبون داخل عمود الكوبون -->
+    <form action="{{ route('admin.orders.applyCoupon') }}" method="POST" class="mb-3">
+        @csrf
+        <input type="hidden" name="order_id" value="{{ $order->id }}">
+        <input type="text" name="coupon_code" class="form-control form-control-sm" placeholder="Enter Coupon Code" value="{{ old('coupon_code') }}">
+        <button type="submit" class="btn btn-primary btn-sm mt-2">Apply</button>
+    </form>
+</td>
+
+<td>
+    @if($order->discounted_amount)
+        ${{ number_format($order->discounted_amount, 2) }}
+    @else
+        N/A
+    @endif
+</td>
+
                         <td>
                             <form action="{{ route('admin.orders.updateStatus', $order->id) }}" method="POST">
                                 @csrf
@@ -107,9 +142,8 @@
 
             <!-- روابط الباجيناشن -->
             <div class="pagination">
-                {!! $orders->links('pagination::bootstrap-4') !!} <!-- رابط الباجينيشن مع Bootstrap 4 -->
+                {!! $orders->links('pagination::bootstrap-4') !!}
             </div>
-        </div>
         </div>
     </div>
 </div>
@@ -124,5 +158,5 @@ $(document).on('click', '.deleteOrderBtn', function() {
     $('#deleteOrderForm').attr('action', actionUrl);
     $('#deleteOrderModal').modal('show');
 });
-</script>
+</script>  
 @endsection
