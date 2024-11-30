@@ -7,7 +7,7 @@
 <!-- Confirm Delete Modal for Messages -->
 <div class="modal fade" id="deleteMessageModal" tabindex="-1" aria-labelledby="deleteMessageModalLabel"
     aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <form action="" method="POST" id="deleteMessageForm">
                 @csrf
@@ -39,34 +39,37 @@
                 <div class="alert alert-success">{{ session('success') }}</div>
             @endif
 
-            <table id="myDataTable" class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Message</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($contacts as $contact)
+            <!-- Table -->
+            <div class="table-responsive">
+                <table id="myDataTable" class="table table-bordered">
+                    <thead>
                         <tr>
-                            <td>{{ $loop->iteration }}</td>
-                            <td>{{ $contact->name }}</td>
-                            <td>{{ $contact->email }}</td>
-                            <td>{{ $contact->message }}</td>
-                            <td>
-                                <button type="button" class="btn btn-danger btn-sm deleteMessageBtn"
-                                    data-id="{{ $contact->id }}" data-bs-toggle="modal"
-                                    data-bs-target="#deleteMessageModal">
-                                    Delete
-                                </button>
-                            </td>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Message</th>
+                            <th>Actions</th>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach($contacts as $contact)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $contact->name }}</td>
+                                <td>{{ $contact->email }}</td>
+                                <td>{{ $contact->message }}</td>
+                                <td>
+                                    <button type="button" class="btn btn-danger btn-sm deleteMessageBtn"
+                                        data-id="{{ $contact->id }}" data-bs-toggle="modal"
+                                        data-bs-target="#deleteMessageModal">
+                                        Delete
+                                    </button>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

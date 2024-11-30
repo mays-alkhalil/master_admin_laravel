@@ -39,33 +39,35 @@
                 <div class="alert alert-success">{{ session('success') }}</div>
             @endif
 
-            <table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>#</th>
-            <th>User</th>
-            <th>Product</th>
-            <th>Rating</th>
-            <th>Comment</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach ($reviews as $review)
-            <tr>
-                <td>{{ $loop->iteration }}</td>
-                <td>{{ optional($review->user)->name ?? 'No User' }}</td> <!-- استخدام optional هنا -->
-                <td>{{ optional($review->product)->name ?? 'No Product' }}</td> <!-- استخدام optional هنا -->
-                <td>{{ $review->rating }}</td>
-                <td>{{ $review->review }}</td>
-                <td>
-    <button class="btn btn-danger btn-sm deleteReviewBtn" data-id="{{ $review->id }}">Delete</button>
-</td>
-                </td>
-            </tr>
-        @endforeach
-    </tbody>
-</table>
+            <!-- Review Table -->
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>User</th>
+                            <th>Product</th>
+                            <th>Rating</th>
+                            <th>Comment</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($reviews as $review)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ optional($review->user)->name ?? 'No User' }}</td> <!-- استخدام optional هنا -->
+                                <td>{{ optional($review->product)->name ?? 'No Product' }}</td> <!-- استخدام optional هنا -->
+                                <td>{{ $review->rating }}</td>
+                                <td>{{ $review->review }}</td>
+                                <td>
+                                    <button class="btn btn-danger btn-sm deleteReviewBtn" data-id="{{ $review->id }}">Delete</button>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
 
         </div>
     </div>

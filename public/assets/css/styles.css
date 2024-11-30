@@ -11244,3 +11244,18 @@ body {
 }
 
 
+@media (max-width: 768px) {
+  .card-header h4 {
+      font-size: 16px;
+      text-align: center;
+  }
+  .pagination {
+      text-align: center;
+  }
+  .table-responsive {
+    overflow-x: auto;
+}
+table {
+    width: 100%;
+}
+}

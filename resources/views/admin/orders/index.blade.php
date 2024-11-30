@@ -48,97 +48,85 @@
                         <input type="text" name="search" class="form-control" placeholder="Search by User Name, Status, or Delivery Method" value="{{ request('search') }}">
                     </div>
                     <div class="col-md-6">
-                        <button type="submit" class="btn btn-primary">Search</button>
+                        <button type="submit" class="btn btn-primary w-100 w-md-auto">Search</button>
                     </div>
                 </div>
             </form>
 
-          
-
-            <!-- جدول الطلبات -->
-            <table id="myDataTable" class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Order ID</th>
-                        <th>User Name</th>
-                        <th>Status</th>
-                        <th>Delivery Method</th>
-                        <th>Total Amount</th>
-                        <th>Items Count</th>
-                        <th>Coupon</th> <!-- عمود الكوبون الجديد -->
-                        <th>Discounted Amount</th> <!-- عمود السعر بعد الخصم -->
-
-                        <th>Edit Status</th>
-                        <th>View</th>
-                        <th>Delete</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($orders as $order)
-                    <tr>
-                        <td>{{ $order->id }}</td>
-                        <td>{{ $order->user->name }}</td>
-                        <td>{{ $order->status }}</td>
-                        <td>{{ $order->delivery_method == 'delivery' ? 'Delivery' : 'Pickup' }}</td>
-                        <td>
-    @if($order->total_amount < $order->original_amount) <!-- تحقق مما إذا كان هناك خصم -->
-        <span style="text-decoration: line-through;">${{ $order->original_amount }}</span>
-        <span style="color: red;">${{ $order->total_amount }}</span>
-    @else
-        ${{ $order->total_amount }}
-    @endif
-</td>
-                        <td>{{ $order->items->sum('quantity') }}</td>
-                        <td>
-                        
-    <!-- عرض حقل الكوبون داخل عمود الكوبون -->
-    <form action="{{ route('admin.orders.applyCoupon') }}" method="POST" class="mb-3">
-        @csrf
-        <input type="hidden" name="order_id" value="{{ $order->id }}">
-        <input type="text" name="coupon_code" class="form-control form-control-sm" placeholder="Enter Coupon Code" value="{{ old('coupon_code') }}">
-        <button type="submit" class="btn btn-primary btn-sm mt-2">Apply</button>
-    </form>
-</td>
-
-<td>
-    @if($order->discounted_amount)
-        ${{ number_format($order->discounted_amount, 2) }}
-    @else
-        N/A
-    @endif
-</td>
-
-                        <td>
-                            <form action="{{ route('admin.orders.updateStatus', $order->id) }}" method="POST">
-                                @csrf
-                                @method('PATCH')
-                                <select name="status" class="form-select form-select-sm" onchange="this.form.submit()">
-                                    <option value="processing" {{ $order->status == 'processing' ? 'selected' : '' }}>
-                                        Processing
-                                    </option>
-                                    <option value="completed" {{ $order->status == 'completed' ? 'selected' : '' }}>
-                                        Completed
-                                    </option>
-                                    <option value="canceled" {{ $order->status == 'canceled' ? 'selected' : '' }}>
-                                        Canceled
-                                    </option>
-                                </select>
-                            </form>
-                        </td>
-                        <td>
-                            <!-- زر العرض -->
-                            <a href="{{ route('admin.orders.show', $order->id) }}" class="btn btn-primary btn-sm">View</a>
-                        </td>
-                        <td>
-                            <button type="button" class="btn btn-danger btn-sm deleteOrderBtn" data-id="{{ $order->id }}"
-                                data-bs-toggle="modal" data-bs-target="#deleteOrderModal">
-                                Delete
-                            </button>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+            <!-- جدول الطلبات مع التمرير على الشاشات الصغيرة -->
+            <div class="table-responsive">
+                <table id="myDataTable" class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>User Name</th>
+                            <th>Status</th>
+                            <th>Delivery Method</th>
+                            <th>Total Amount</th>
+                            <th>Items Count</th>
+                            <th>Coupon</th>
+                            <th>Discounted Amount</th>
+                            <th>Edit Status</th>
+                            <th>View</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($orders as $order)
+                        <tr>
+                            <td>{{ $order->id }}</td>
+                            <td>{{ $order->user->name }}</td>
+                            <td>{{ $order->status }}</td>
+                            <td>{{ $order->delivery_method == 'delivery' ? 'Delivery' : 'Pickup' }}</td>
+                            <td>
+                                @if($order->total_amount < $order->original_amount) 
+                                    <span style="text-decoration: line-through;">${{ $order->original_amount }}</span>
+                                    <span style="color: red;">${{ $order->total_amount }}</span>
+                                @else
+                                    ${{ $order->total_amount }}
+                                @endif
+                            </td>
+                            <td>{{ $order->items->sum('quantity') }}</td>
+                            <td>
+                                <form action="{{ route('admin.orders.applyCoupon') }}" method="POST" class="mb-3">
+                                    @csrf
+                                    <input type="hidden" name="order_id" value="{{ $order->id }}">
+                                    <input type="text" name="coupon_code" class="form-control form-control-sm" placeholder="Enter Coupon Code" value="{{ old('coupon_code') }}">
+                                    <button type="submit" class="btn btn-primary btn-sm mt-2 w-100">Apply</button>
+                                </form>
+                            </td>
+                            <td>
+                                @if($order->discounted_amount)
+                                    ${{ number_format($order->discounted_amount, 2) }}
+                                @else
+                                    N/A
+                                @endif
+                            </td>
+                            <td>
+                                <form action="{{ route('admin.orders.updateStatus', $order->id) }}" method="POST">
+                                    @csrf
+                                    @method('PATCH')
+                                    <select name="status" class="form-select form-select-sm" onchange="this.form.submit()">
+                                        <option value="processing" {{ $order->status == 'processing' ? 'selected' : '' }}>Processing</option>
+                                        <option value="completed" {{ $order->status == 'completed' ? 'selected' : '' }}>Completed</option>
+                                        <option value="canceled" {{ $order->status == 'canceled' ? 'selected' : '' }}>Canceled</option>
+                                    </select>
+                                </form>
+                            </td>
+                            <td>
+                                <a href="{{ route('admin.orders.show', $order->id) }}" class="btn btn-primary btn-sm w-100">View</a>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-danger btn-sm deleteOrderBtn w-100" data-id="{{ $order->id }}"
+                                    data-bs-toggle="modal" data-bs-target="#deleteOrderModal">
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
 
             <!-- روابط الباجيناشن -->
             <div class="pagination">

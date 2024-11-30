@@ -54,49 +54,49 @@
             </form>
 
             <!-- جدول المتاجر -->
-            <table id="myDataTable" class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Store Name</th>
-                        <th>Image</th>
-                        <th>Status</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($stores as $item)
-                    <tr>
-                        <td>{{ $item->id }}</td>
-                        <td>{{ $item->name }}</td>
-                        <td>
-                            @if($item->image)
-                            <img src="{{ asset('storage/'.$item->image) }}" width="50px" height="50px" alt="Store Image">
-                            @else
-                            <span>No Image</span>
-                            @endif
-                        </td>
-                        <td>{{ $item->status == 'active' ? 'Active' : 'Inactive' }}</td>
-                        <td>
-                            <a href="{{ route('admin.stores.edit', $item->id) }}" class="btn btn-success btn-sm">Edit</a>
-                        </td>
-                        <td>
-                            <!-- Button to trigger modal -->
-                            <button type="button" class="btn btn-danger btn-sm deleteStoreBtn" data-id="{{ $item->id }}">Delete</button>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table id="myDataTable" class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Store Name</th>
+                            <th>Image</th>
+                            <th>Status</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($stores as $item)
+                        <tr>
+                            <td>{{ $item->id }}</td>
+                            <td>{{ $item->name }}</td>
+                            <td>
+                                @if($item->image)
+                                <img src="{{ asset('storage/'.$item->image) }}" width="50px" height="50px" alt="Store Image">
+                                @else
+                                <span>No Image</span>
+                                @endif
+                            </td>
+                            <td>{{ $item->status == 'active' ? 'Active' : 'Inactive' }}</td>
+                            <td>
+                                <a href="{{ route('admin.stores.edit', $item->id) }}" class="btn btn-success btn-sm">Edit</a>
+                            </td>
+                            <td>
+                                <!-- Button to trigger modal -->
+                                <button type="button" class="btn btn-danger btn-sm deleteStoreBtn" data-id="{{ $item->id }}">Delete</button>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
 
             <!-- روابط الباجيناشن -->
             <div class="pagination">
-                {!! $stores->links('pagination::bootstrap-4') !!} <!-- رابط الباجينيشن مع Bootstrap 4 -->
+                {!! $stores->links('pagination::bootstrap-4') !!}
             </div>
         </div>
-      
-
     </div>
 </div>
 

@@ -46,32 +46,34 @@
                 </form>
             </div>
 
-            <table id="myDataTable" class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Category Name</th>
-                        <th>Image</th>
-                        <th>Status</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($categories as $item)
+            <div class="table-responsive">
+                <table id="myDataTable" class="table table-bordered">
+                    <thead>
                         <tr>
-                            <td>{{ $item->id }}</td>
-                            <td>{{ $item->name }}</td>
-                            <td><img src="{{ asset('uploads/categories/'.$item->image) }}" width="50px" height="50px" alt="Img"></td>
-                            <td>{{ $item->status == '1' ? 'Hidden' : 'Shown' }}</td>
-                            <td><a href="{{ url('admin/edit-category/'.$item->id) }}" class="btn btn-success">Edit</a></td>
-                            <td>
-                                <button type="button" class="btn btn-danger deleteCategoryBtn" value="{{ $item->id }}">Delete</button>
-                            </td>
+                            <th>ID</th>
+                            <th>Category Name</th>
+                            <th>Image</th>
+                            <th>Status</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach($categories as $item)
+                            <tr>
+                                <td>{{ $item->id }}</td>
+                                <td>{{ $item->name }}</td>
+                                <td><img src="{{ asset('uploads/categories/'.$item->image) }}" width="50px" height="50px" alt="Img"></td>
+                                <td>{{ $item->status == '1' ? 'Hidden' : 'Shown' }}</td>
+                                <td><a href="{{ url('admin/edit-category/'.$item->id) }}" class="btn btn-success btn-sm">Edit</a></td>
+                                <td>
+                                    <button type="button" class="btn btn-danger btn-sm deleteCategoryBtn" value="{{ $item->id }}">Delete</button>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
 
             <!-- روابط الباجينيشن -->
             <div class="pagination">
